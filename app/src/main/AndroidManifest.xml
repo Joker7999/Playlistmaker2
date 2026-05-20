@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
@@ -11,26 +10,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
 
-    <activity
+        <activity
             android:name=".SearchView"
-            android:exported="false"/>
+            android:exported="false" />
 
-     <activity
-           android:name=".MediaView"
-           android:exported="false"/>
+        <activity
+            android:name=".MediaView"
+            android:exported="false" />
 
-      <activity
-          android:name=".SettingsActivity"
-          android:exported="false" />
-       <activity
-           android:name=".MainActivity"
-           android:exported="true"/>
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
 
-        <intent-filter>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>  <!-- теперь внутри MainActivity -->
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
 
     </application>
 
