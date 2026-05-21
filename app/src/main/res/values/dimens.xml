@@ -6,4 +6,5 @@
     <dimen name="main_button_icon_padding">8dp</dimen>
     <dimen name="pref_text_size">16sp</dimen>
     <dimen name="pref_line_height">61dp</dimen>
+    <dimen name="icon_button_size">48dp</dimen>
 </resources>

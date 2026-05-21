@@ -13,8 +13,8 @@
 
         <ImageButton
             android:id="@+id/pref_back_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/icon_button_size"
+            android:layout_height="@dimen/icon_button_size"
             android:layout_gravity="center"
             android:layout_marginStart="14dp"
             android:background="@color/white"
@@ -23,7 +23,7 @@
             android:src="@drawable/ic_arrow_back"/>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginBottom="2dp"
             android:layout_gravity="center"
@@ -76,8 +76,8 @@
                         android:layout_weight="1"/>
 
                     <ImageButton
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="@dimen/icon_button_size"
+                        android:layout_height="@dimen/icon_button_size"
                         android:layout_gravity="center"
                         android:layout_marginEnd="@dimen/main_button_margin_side"
                         android:contentDescription="@string/share_app"
@@ -105,8 +105,8 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"/>
                     <ImageButton
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="@dimen/icon_button_size"
+                        android:layout_height="@dimen/icon_button_size"
                         android:layout_gravity="center"
                         android:layout_marginEnd="@dimen/main_button_margin_side"
                         android:contentDescription="@string/support"
@@ -133,14 +133,14 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"/>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/main_button_margin_side"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_arrow"
-                        app:tint="@color/yp_text_gray" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="@dimen/main_button_margin_side"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_arrow"
+                            app:tint="@color/yp_text_gray" />
             </LinearLayout>
 
 
