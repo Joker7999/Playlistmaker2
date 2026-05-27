@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <id name="search_button_pm"/>
+    <id name="media_button_pm"/>
+    <id name="pref_button_pm"/>
+    <id name="pref_back_button"/>
+</resources>
