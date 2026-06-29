@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Playlistmaker2</string>
+    <string name="title_string">Playlistmaker2</string>
+    <string name="search_button">Поиск</string>
+    <string name="media_button">Медиатека</string>
+    <string name="pref_button">Настройки</string>
+    <string name="choose_theme">Темная тема</string>
+    <string name="share_app">Поделиться приложениям</string>
+    <string name="support">Написать в поддержку</string>
+    <string name="license_agreement">Пользовательское соглашение</string>
+</resources>
