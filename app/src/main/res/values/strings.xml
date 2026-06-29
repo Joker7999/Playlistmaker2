@@ -1,11 +1,21 @@
 <resources>
+
     <string name="app_name">Playlistmaker2</string>
-    <string name="title_string">Playlistmaker2</string>
-    <string name="search_button">Поиск</string>
-    <string name="media_button">Медиатека</string>
-    <string name="pref_button">Настройки</string>
-    <string name="choose_theme">Темная тема</string>
-    <string name="share_app">Поделиться приложениям</string>
-    <string name="support">Написать в поддержку</string>
-    <string name="license_agreement">Пользовательское соглашение</string>
+    <string name="search">Поиск</string>
+    <string name="media">Медиатека</string>
+    <string name="settings">Настройки</string>
+    <string name="dark_theme">Тёмная тема</string>
+    <string name="share_app">Поделиться приложением</string>
+    <string name="write_to_support">Написать в поддержку</string>
+    <string name="user_agreement">Пользовательское соглашение</string>
+
+    <string name="share_message">Курс по Android-разработке в Практикуме:https://practicum.yandex.ru/android-developer/</string>
+    <string name="support_email">6725475@gmail.com</string>
+    <string name="support_subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="support_body">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="terms_url">https://yandex.ru/legal/practicum_offer/ru/</string>
+
+    <string name="search_placeholder">Результаты поиска будет здесь</string>
+
+
 </resources>

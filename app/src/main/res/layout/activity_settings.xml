@@ -1,148 +1,48 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/settings_root" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/white" android:orientation="vertical">
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/settings_header_height">
-        <ImageButton
-            android:id="@+id/pref_back_button"
-            android:layout_width="@dimen/icon_button_size"
-            android:layout_height="@dimen/icon_button_size"
-            android:layout_marginStart="@dimen/settings_header_back_offset"
-            android:layout_marginTop="@dimen/settings_header_back_offset"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/pref_button"
-            android:padding="@dimen/settings_icon_padding"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_arrow_back"
-            app:tint="@color/yp_black"/>
-        <TextView
-            android:layout_width="@dimen/settings_title_width"
-            android:layout_height="@dimen/settings_title_height"
-            android:layout_marginStart="@dimen/settings_title_margin_start"
-            android:layout_marginTop="@dimen/settings_title_margin_top"
-            android:fontFamily="sans-serif-medium"
-            android:includeFontPadding="false"
-            android:singleLine="true"
-            android:text="@string/pref_button"
-            android:textColor="@color/yp_black"
-            android:textSize="@dimen/main_text_size"/>
-    </FrameLayout>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/settings_content_top_gap"/>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/pref_line_height"
-        android:background="@color/white">
-        <TextView
-            android:layout_width="@dimen/settings_item_text_width"
-            android:layout_height="@dimen/settings_item_text_height"
-            android:layout_marginStart="@dimen/settings_item_text_margin_start"
-            android:layout_marginTop="@dimen/settings_item_text_margin_top"
-            android:fontFamily="sans-serif"
-            android:includeFontPadding="false"
-            android:singleLine="true"
-            android:text="@string/choose_theme"
-            android:textColor="@color/yp_black"
-            android:textSize="@dimen/pref_text_size"/>
-        <com.example.playlistmaker2.SettingsSwitchView
-            android:id="@+id/theme_switch"
-            android:layout_width="@dimen/settings_switch_width"
-            android:layout_height="@dimen/settings_switch_height"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/settings_switch_margin_top"
-            android:layout_marginEnd="@dimen/settings_switch_margin_end"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:background="?attr/colorSurface">
 
-            android:contentDescription="@string/choose_theme"/>
-    </FrameLayout>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/pref_line_height"
-        android:background="@color/white"
-        android:clickable="true"
-        android:focusable="true">
-        <TextView
-            android:layout_width="@dimen/settings_item_text_width"
-            android:layout_height="@dimen/settings_item_text_height"
-            android:layout_marginStart="@dimen/settings_item_text_margin_start"
-            android:layout_marginTop="@dimen/settings_item_text_margin_top"
-            android:fontFamily="sans-serif"
-            android:includeFontPadding="false"
-            android:singleLine="true"
-            android:text="@string/share_app"
-            android:textColor="@color/yp_black"
-            android:textSize="@dimen/pref_text_size"/>
-        <ImageButton
-            android:layout_width="@dimen/icon_button_size"
-            android:layout_height="@dimen/icon_button_size"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/settings_icon_margin_top"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/share_app"
-            android:minWidth="@dimen/settings_icon_min_size"
-            android:minHeight="@dimen/settings_icon_min_size"
-            android:padding="@dimen/settings_icon_padding"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_share"
-            app:tint="@color/yp_text_gray"/>
-    </FrameLayout>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/pref_line_height"
-        android:background="@color/white"
-        android:clickable="true"
-        android:focusable="true">
-        <TextView
-            android:layout_width="@dimen/settings_item_text_width"
-            android:layout_height="@dimen/settings_item_text_height"
-            android:layout_marginStart="@dimen/settings_item_text_margin_start"
-            android:layout_marginTop="@dimen/settings_item_text_margin_top"
-            android:fontFamily="sans-serif"
-            android:includeFontPadding="false"
-            android:singleLine="true"
-            android:text="@string/support"
-            android:textColor="@color/yp_black"
-            android:textSize="@dimen/pref_text_size"/>
-        <ImageButton
-            android:layout_width="@dimen/icon_button_size"
-            android:layout_height="@dimen/icon_button_size"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/settings_icon_margin_top"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/support"
-            android:minWidth="@dimen/settings_icon_min_size"
-            android:minHeight="@dimen/settings_icon_min_size"
-            android:padding="@dimen/settings_icon_padding"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_support"
-            app:tint="@color/yp_text_gray"/>
-    </FrameLayout>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/pref_line_height"
-        android:background="@color/white"
-        android:clickable="true"
-        android:focusable="true">
-        <TextView
-            android:layout_width="@dimen/settings_item_text_width"
-            android:layout_height="@dimen/settings_item_text_height"
-            android:layout_marginStart="@dimen/settings_item_text_margin_start"
-            android:layout_marginTop="@dimen/settings_item_text_margin_top"
-            android:fontFamily="sans-serif"
-            android:includeFontPadding="false"
-            android:singleLine="true"
-            android:text="@string/license_agreement"
-            android:textColor="@color/yp_black"
-            android:textSize="@dimen/pref_text_size"/>
-        <ImageView
-            android:layout_width="@dimen/icon_button_size"
-            android:layout_height="@dimen/icon_button_size"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/settings_icon_margin_top"
-            android:background="@android:color/transparent"
-            android:contentDescription="@null"
-            android:padding="@dimen/settings_icon_padding"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_arrow"
-            app:tint="@color/yp_text_gray"/>
-    </FrameLayout>
+<!-- Заголовок с иконкой назад -->
+
+<com.google.android.material.appbar.MaterialToolbar
+    android:id="@+id/tbSettings"
+    style="@style/TitleIcBack"
+    app:title="@string/settings" />
+
+
+<!--темная тема-->
+
+<com.google.android.material.switchmaterial.SwitchMaterial
+    android:id="@+id/theme_switch"
+    style="@style/Settings"
+    android:text="@string/dark_theme" />
+
+<!-- Поделиться приложением -->
+
+<com.google.android.material.textview.MaterialTextView
+    android:id="@+id/tv_share"
+    style="@style/Settings"
+    android:text="@string/share_app"
+    android:drawableEnd="@drawable/ic_share"/>
+
+<!-- Написать в поддержку -->
+
+<com.google.android.material.textview.MaterialTextView
+    android:id="@+id/tv_support"
+    style="@style/Settings"
+    android:text="@string/write_to_support"
+    android:drawableEnd="@drawable/ic_support"/>
+
+<!-- Пользовательское соглашение -->
+
+<com.google.android.material.textview.MaterialTextView
+    android:id="@+id/tv_agreement"
+    style="@style/Settings"
+    android:text="@string/user_agreement"
+    android:drawableEnd="@drawable/ic_arrow_back"/>
+
 </LinearLayout>

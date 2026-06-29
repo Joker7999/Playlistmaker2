@@ -1,0 +1,14 @@
+<resources>
+
+    <style name="Base.Theme.PlaylistMaker2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSurface">@color/black</item>
+        <item name="colorOnSurface">@color/white</item>
+    </style>
+
+
+    <style name="Theme.PlaylistMaker2" parent="Base.Theme.PlaylistMaker2" />
+</resources>

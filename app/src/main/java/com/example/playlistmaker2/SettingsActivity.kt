@@ -1,36 +1,51 @@
 package com.example.playlistmaker2
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.textview.MaterialTextView
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_settings)
 
-        val root = findViewById<View>(R.id.settings_root)
-        val backButton = findViewById<ImageButton>(R.id.pref_back_button)
+        val backButton = findViewById<MaterialToolbar>(R.id.tbSettings)
+        val shareItem = findViewById<MaterialTextView>(R.id.tv_share)
+        val supportItem = findViewById<MaterialTextView>(R.id.tv_support)
+        val agreementItem = findViewById<MaterialTextView>(R.id.tv_agreement)
 
-        ViewCompat.setOnApplyWindowInsetsListener(root) { view, insets ->
-            val statusBarInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars())
-            view.updatePadding(top = statusBarInsets.top)
-            insets
-        }
-
-        backButton.setOnClickListener {
+        backButton.setNavigationOnClickListener {
             finish()
         }
+        shareItem.setOnClickListener {
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT,getString(R.string.share_message))
+            }
+            startActivity(Intent.createChooser(shareIntent,null))
+        }
+        supportItem.setOnClickListener {
+            val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:")
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.support_email)))
+                putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_subject))
+                putExtra(Intent.EXTRA_TEXT,getString(R.string.support_body))
+
+            }
+            startActivity(Intent.createChooser(emailIntent,null))
+        }
+        agreementItem.setOnClickListener {
+            val termsUrl = getString(R.string.terms_url)
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(termsUrl))
+            startActivity(browserIntent)
+        }
+
+
     }
 }
-
-
-
-
-
-
-

@@ -1,38 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="main_text_size">22sp</dimen>
-    <dimen name="main_button_margin_side">16dp</dimen>
-    <dimen name="main_button_corner_radius">16dp</dimen>
-    <dimen name="main_button_icon_padding">16dp</dimen>
-    <dimen name="pref_text_size">16sp</dimen>
-    <dimen name="pref_line_height">61dp</dimen>
-    <dimen name="icon_button_size">48dp</dimen>
-    <dimen name="settings_header_height">56dp</dimen>
-    <dimen name="settings_header_back_offset">4dp</dimen>
-    <dimen name="settings_title_width">120dp</dimen>
-    <dimen name="settings_title_height">26dp</dimen>
-    <dimen name="settings_title_margin_start">64dp</dimen>
-    <dimen name="settings_title_margin_top">14dp</dimen>
-    <dimen name="settings_content_top_gap">24dp</dimen>
-    <dimen name="settings_item_text_width">300dp</dimen>
-    <dimen name="settings_item_text_height">19dp</dimen>
-    <dimen name="settings_item_text_margin_start">16dp</dimen>
-    <dimen name="settings_item_text_margin_top">21dp</dimen>
-    <dimen name="settings_icon_padding">12dp</dimen>
-    <dimen name="settings_icon_margin_top">7dp</dimen>
-    <dimen name="settings_icon_min_size">0dp</dimen>
-    <dimen name="settings_switch_width">56dp</dimen>
-    <dimen name="settings_switch_height">40dp</dimen>
-    <dimen name="settings_switch_margin_top">10dp</dimen>
-    <dimen name="settings_switch_margin_end">6dp</dimen>
-    <dimen name="settings_switch_track_width">32dp</dimen>
-    <dimen name="settings_switch_track_height">12dp</dimen>
-    <dimen name="settings_switch_track_radius">6dp</dimen>
-    <dimen name="settings_switch_track_margin_start">14dp</dimen>
-    <dimen name="settings_switch_track_margin_top">14dp</dimen>
-    <dimen name="settings_switch_thumb_size">18dp</dimen>
-    <dimen name="settings_switch_thumb_unchecked_margin_start">8dp</dimen>
-    <dimen name="settings_switch_thumb_margin_start">30dp</dimen>
-    <dimen name="settings_switch_thumb_margin_top">11dp</dimen>
-    <dimen name="settings_switch_thumb_elevation">1dp</dimen>
-    <dimen name="settings_switch_thumb_shadow_radius">3.1dp</dimen>
+
+    <!--main-->
+    <dimen name="text_size_title">22sp</dimen>
+    <dimen name="main_button_end">16dp</dimen>
+    <dimen name="main_button_start">16dp</dimen>
+    <dimen name="main_button_bottom">8dp</dimen>
+    <dimen name="main_button_radius">16dp</dimen>
+
+    <!-- -->
+    <dimen name="horizontal">16dp</dimen>
+    <dimen name="top">20dp</dimen>
+    <dimen name="padding">48dp</dimen>
+    <dimen name="padding_s">12dp</dimen>
+
+    <!--text-->
+
+    <dimen name="text_size_body">16sp</dimen>
+
 </resources>
