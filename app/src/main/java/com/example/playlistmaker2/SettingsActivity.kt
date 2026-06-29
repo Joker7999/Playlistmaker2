@@ -3,11 +3,12 @@ package com.example.playlistmaker2
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textview.MaterialTextView
+import com.google.android.material.switchmaterial.SwitchMaterial
+import androidx.appcompat.app.AppCompatDelegate
+import android.content.res.Configuration
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,6 +20,20 @@ class SettingsActivity : AppCompatActivity() {
         val shareItem = findViewById<MaterialTextView>(R.id.tv_share)
         val supportItem = findViewById<MaterialTextView>(R.id.tv_support)
         val agreementItem = findViewById<MaterialTextView>(R.id.tv_agreement)
+        val themeSwitch = findViewById<SwitchMaterial>(R.id.theme_switch)
+
+        val isDarkTheme = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+        android.util.Log.d("PlaylistMaker", "onCreate: isDarjTheme=$isDarkTheme")
+        themeSwitch.isChecked = isDarkTheme
+
+        themeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            android.util.Log.d("PlaylistMaker", "themeSwitch toggled: isChecked=$isChecked")
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
 
         backButton.setNavigationOnClickListener {
             finish()

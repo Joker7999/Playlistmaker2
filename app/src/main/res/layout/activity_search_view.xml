@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     android:background="?attr/colorSurface">
 
     <!-- Заголовок с иконкой назад -->
@@ -19,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/horizontal"
         android:layout_marginEnd="@dimen/horizontal"
+        android:layout_marginTop="@dimen/padding_search_top"
         android:layout_gravity="center_vertical"
         android:background="@drawable/search_edit_text_background">
 
@@ -36,7 +38,8 @@
             android:textColor="@color/black"
             android:textColorHint="?attr/searchTint"
             android:textSize="@dimen/text_size_body"
-            android:fontFamily="@font/ys_display_regular"/>
+            android:fontFamily="@font/ys_display_regular"
+            app:fontFamily="@font/ys_display_regular"/>
 
         <!--иконка лупа-->
         <ImageView

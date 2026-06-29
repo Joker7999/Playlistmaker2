@@ -4,6 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical"
+    android:fitsSystemWindows="true"
 android:background="?attr/colorSurface">
 
 <!-- Заголовок с иконкой назад -->
@@ -19,7 +20,9 @@ android:background="?attr/colorSurface">
 <com.google.android.material.switchmaterial.SwitchMaterial
     android:id="@+id/theme_switch"
     style="@style/Settings"
-    android:text="@string/dark_theme" />
+    android:text="@string/dark_theme"
+    app:thumbTint="?attr/switchThumbTint"
+    app:trackTint="?attr/switchTrackTint"/>
 
 <!-- Поделиться приложением -->
 
@@ -43,6 +46,6 @@ android:background="?attr/colorSurface">
     android:id="@+id/tv_agreement"
     style="@style/Settings"
     android:text="@string/user_agreement"
-    android:drawableEnd="@drawable/ic_arrow_back"/>
+    android:drawableEnd="@drawable/ic_arrow"/>
 
 </LinearLayout>

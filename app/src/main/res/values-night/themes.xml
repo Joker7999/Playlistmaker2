@@ -1,0 +1,18 @@
+<resources>
+
+    <style name="Base.Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSurface">@color/black</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="searchTint">@color/black</item>
+        <item name="settingsIconTint">@color/white</item>
+        <item name="switchThumbTint">@color/blue</item>
+        <item name="switchTrackTint">@color/switch_track_dark</item>
+    </style>
+
+
+    <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker" />
+</resources>

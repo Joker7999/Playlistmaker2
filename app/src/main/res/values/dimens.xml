@@ -13,6 +13,7 @@
     <dimen name="top">20dp</dimen>
     <dimen name="padding">48dp</dimen>
     <dimen name="padding_s">12dp</dimen>
+    <dimen name="padding_search_top">8dp</dimen>
 
     <!--text-->
 

@@ -24,17 +24,13 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_view)
 
-
-        val toolbar = findViewById<MaterialToolbar>(R.id.tbSearch)
+        val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.tbSearch)
         toolbar.setNavigationOnClickListener {
             finish()
         }
 
-
         searchEditText = findViewById(R.id.searchEditText)
         clearButton = findViewById(R.id.clearButton)
-
-
 
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -56,14 +52,6 @@ class SearchActivity : AppCompatActivity() {
 
         searchEditText.addTextChangedListener(textWatcher)
 
-
-        if (savedInstanceState != null) {
-            val savedText = savedInstanceState.getString("SEARCH_TEXT", "")
-            if (savedText.isNotEmpty()) {
-                searchEditText.setText(savedText)
-                searchEditText.setSelection(savedText.length)
-            }
-        }
         clearButton.setOnClickListener {
             searchEditText.setText("")
             hideKeyboard()

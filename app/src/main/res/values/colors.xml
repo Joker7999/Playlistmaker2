@@ -7,5 +7,5 @@
     <color name="switch_thumb">#00D6C3</color>
     <color name="gray">#AEAFB4</color>
     <color name="light_gray">#E6E8EB</color>
-
+    <color name="switch_track_dark">#9FBBF3</color>
 </resources>
