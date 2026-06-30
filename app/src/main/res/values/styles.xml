@@ -59,7 +59,7 @@
 
     <style name="roundedImageView">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">@dimen/spacing_s</item>
+        <item name="cornerSize">@dimen/track_cover_radius</item>
     </style>
 
     <style name="Icon">

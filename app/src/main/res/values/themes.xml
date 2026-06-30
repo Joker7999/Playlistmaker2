@@ -9,8 +9,7 @@
         <item name="settingsIconTint">@color/gray</item>
         <item name="switchThumbTint">@color/switch_thumb</item>
         <item name="switchTrackTint">@color/switch_track</item>
-
-
+        <item name="trackColor">@color/gray</item>
     </style>
 
 

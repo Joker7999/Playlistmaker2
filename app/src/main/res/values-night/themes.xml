@@ -11,6 +11,7 @@
         <item name="settingsIconTint">@color/white</item>
         <item name="switchThumbTint">@color/blue</item>
         <item name="switchTrackTint">@color/switch_track_dark</item>
+        <item name="trackColor">@color/white</item>
     </style>
 
 

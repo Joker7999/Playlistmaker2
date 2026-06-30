@@ -27,4 +27,5 @@
     <dimen name="text_size_body">16sp</dimen>
     <dimen name="size_45">45dp</dimen>
     <dimen name="text_size_body_s">11sp</dimen>
+    <dimen name="track_cover_radius">2dp</dimen>
 </resources>

@@ -4,7 +4,6 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.util.TypedValueCompat.dpToPx
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -24,9 +23,7 @@ class TrackViewHolder (itemView: View): RecyclerView.ViewHolder(itemView){
         tvArtistName.text = track.artistName
         tvTrackTime.text = track.trackTime
 
-        val cornerRadius = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, 8f, itemView.context.resources.displayMetrics
-        ).toInt()
+        val cornerRadius = itemView.context.resources.getDimensionPixelSize(R.dimen.track_cover_radius)
         Glide.with(itemView.context)
             .load(track.artworkUrl100)
             .placeholder(R.drawable.ic_placeholder_45)
