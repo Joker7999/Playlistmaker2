@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="titles">
+        <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="fontFamily">@font/ys_display_medium</item>
+    </style>
+
+    <style name= "MainMenuButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <!--размеры-->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginEnd">@dimen/main_button_end</item>
+        <item name="android:layout_marginStart">@dimen/main_button_start</item>
+        <item name="android:layout_marginBottom">@dimen/main_button_bottom</item>
+        <item name="cornerRadius">@dimen/main_button_radius</item>
+
+        <!--текст-->
+        <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="fontFamily">@font/ys_display_medium</item>
+        <item name="android:textColor">@color/black</item>
+
+        <!--фон-->
+        <item name="backgroundTint">@color/white</item>
+
+
+        <!--icon-->
+        <item name="iconGravity">textStart</item>
+        <item name="iconTint">@color/black</item>
+
+    </style>
+
+    <style name="TitleIcBack">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="navigationIcon">@drawable/ic_arrow_back</item>
+        <item name="navigationIconTint">?attr/colorOnSurface</item>
+        <item name="titleTextColor">?attr/colorOnSurface</item>
+        <item name="titleTextAppearance">@style/titles</item>
+    </style>
+
+    <style name="Settings">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/horizontal</item>
+        <item name="android:paddingEnd">@dimen/horizontal</item>
+        <item name="android:paddingTop">@dimen/top</item>
+        <item name="android:paddingBottom">@dimen/top</item>
+        <item name="android:textSize">@dimen/text_size_body</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:drawableTint">?attr/settingsIconTint</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="fontFamily">@font/ys_display_regular</item>
+    </style>
+
+
+    <style name="Icon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+
+    </style>
+
+
+</resources>

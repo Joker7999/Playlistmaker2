@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="yp_black">#1A1B22</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="yp_blue">#3772E7</color>
-    <color name="yp_text_gray">#AEAFB4</color>
-    <color name="yp_switch_track_checked">#7A76EAE0</color>
-    <color name="yp_switch_thumb_checked">#00D6C3</color>
-    <color name="yp_switch_track_unchecked">#E6E8EB</color>
-    <color name="yp_switch_thumb_unchecked">#AEAFB4</color>
-    <color name="yp_switch_thumb_shadow">#14000000</color>
+    <color name="blue">#3772E7</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#1A1B22</color>
+    <color name="switch_track">#76EAE0</color>
+    <color name="switch_thumb">#00D6C3</color>
+    <color name="gray">#AEAFB4</color>
+    <color name="light_gray">#E6E8EB</color>
+    <color name="switch_track_dark">#9FBBF3</color>
 </resources>

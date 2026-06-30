@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="searchTint" format="color" />
+    <attr name="settingsIconTint" format="color" />
+    <attr name="switchThumbTint" format="color" />
+    <attr name="switchTrackTint" format="color" />
+</resources>
