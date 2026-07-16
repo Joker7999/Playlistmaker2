@@ -12,6 +12,8 @@
         <item name="switchThumbTint">@color/blue</item>
         <item name="switchTrackTint">@color/switch_track_dark</item>
         <item name="trackColor">@color/white</item>
+        <item name="retryButtonBackgroundTint">@color/white</item>
+        <item name="retryButtonTextColor">@color/black</item>
     </style>
 
 
