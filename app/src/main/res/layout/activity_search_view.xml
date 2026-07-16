@@ -31,8 +31,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/search"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
             android:paddingVertical="@dimen/spacing_m"
-            android:paddingStart="@dimen/spacing_xxxl" />
+            android:paddingStart="@dimen/spacing_xxxl"
+            android:paddingEnd="@dimen/spacing_xxxl" />
 
         <!--иконка лупа-->
         <ImageView
