@@ -7,4 +7,5 @@
     <attr name="settingsIconTint" format="color" />
     <attr name="switchThumbTint" format="color" />
     <attr name="switchTrackTint" format="color" />
+
 </resources>

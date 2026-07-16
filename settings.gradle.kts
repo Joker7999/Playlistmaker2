@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Playlistmaker2"
+rootProject.name = "PlaylistMaker2"
 include(":app")

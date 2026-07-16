@@ -1,82 +1,241 @@
 package com.example.playlistmaker2
 
+import android.content.res.Configuration
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker2.network.RetrofitClient
+import com.example.playlistmaker2.network.TrackDto
 import com.google.android.material.appbar.MaterialToolbar
-
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textview.MaterialTextView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SearchActivity : AppCompatActivity() {
-
+    companion object{
+        private const val SEARCH_TEXT_KEY = "SEARCH_TEXT"
+    }
     private lateinit var searchEditText: EditText
     private lateinit var clearButton: ImageView
     private var searchText: String = ""
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: TrackAdapter
+    private lateinit var progressBar: ProgressBar
+
+    private lateinit var placeholderContainer: LinearLayout
+    private lateinit var placeholderTitle: MaterialTextView
+    private lateinit var placeholderImage: ImageView
+    private lateinit var errorSubtitle: MaterialTextView
+    private lateinit var retryButton: MaterialButton
+
+
+
+    private var searchJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_view)
 
-        val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.tbSearch)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.root)) { view, insets ->
+            val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            view.updatePadding(top = statusBar.top)
+            insets
+        }
+
+
+        val toolbar = findViewById<MaterialToolbar>(R.id.tbSearch)
         toolbar.setNavigationOnClickListener {
             finish()
         }
+        recyclerView = findViewById(R.id.rvTracks)
+        adapter = TrackAdapter(emptyList())
+        recyclerView.adapter = adapter
+
 
         searchEditText = findViewById(R.id.searchEditText)
         clearButton = findViewById(R.id.clearButton)
+        progressBar = findViewById(R.id.progressBar)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewTracks)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = TrackAdapter(MockData.trackList)
 
-        val textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        placeholderContainer = findViewById(R.id.placeholderContainer)
+        placeholderImage = findViewById(R.id.placeholderImage)
+        placeholderTitle = findViewById(R.id.placeholderTitle)
+        errorSubtitle = findViewById(R.id.errorSubtitle)
+        retryButton = findViewById(R.id.retryButton)
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-                if (!s.isNullOrEmpty()) {
-                    clearButton.visibility = View.VISIBLE
-                    searchText = s.toString()
-                } else {
-                    clearButton.visibility = View.GONE
-                    searchText = ""
-                }
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
+        retryButton.setOnClickListener {
+            performSearch()
         }
 
-        searchEditText.addTextChangedListener(textWatcher)
+        searchEditText.doOnTextChanged { text, start, before, count ->
 
+
+            if (!text.isNullOrEmpty()) {
+                clearButton.isVisible = true
+                searchText = text.toString()
+            } else {
+                clearButton.isVisible = false
+                searchText = ""
+                clearResults()
+            }
+
+        }
+
+
+        if (savedInstanceState != null) {
+            val savedText = savedInstanceState.getString(SEARCH_TEXT_KEY, "")
+            if (savedText.isNotEmpty()) {
+                searchEditText.setText(savedText)
+                searchEditText.setSelection(savedText.length)
+            }
+        }
         clearButton.setOnClickListener {
             searchEditText.setText("")
             hideKeyboard()
+            clearResults()
 
         }
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                hideKeyboard()
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                performSearch()
                 true
             } else false
         }
     }
 
+    private fun isDarkTheme(): Boolean {
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return currentNightMode == Configuration.UI_MODE_NIGHT_YES
+    }
+    private fun getPlaceholderImage(isNetworkError: Boolean): Int {
+        return if (isDarkTheme()) {
+
+            if (isNetworkError) R.drawable.ic_error_network_dark_120
+            else R.drawable.ic_error_empty_dark_120
+        } else {
+
+            if (isNetworkError) R.drawable.ic_error_network_120
+            else R.drawable.ic_error_empty_120
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        if (placeholderContainer.isVisible) {
+            val isErrorState = errorSubtitle.isVisible
+            placeholderImage.setImageResource(getPlaceholderImage(isErrorState))
+        }
+    }
+
+    private fun performSearch() {
+        val query = searchEditText.text.toString().trim()
+        if(query.isEmpty()) return
+
+        hideKeyboard()
+        showLoading()
+
+        searchJob?.cancel()
+        searchJob = CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitClient.api.searchTracks(query)
+                withContext(Dispatchers.Main) {
+                    if(response.resultCount > 0) {
+                        showTracks(response.results)
+
+                    }else{
+                        showEmpty()
+                    }
+                }
+            }catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    showError()
+                }
+            }
+        }
+    }
+    private fun showTracks(tracks: List<TrackDto>) {
+        progressBar.isVisible = false
+        placeholderContainer.isVisible = false        // ✅
+        recyclerView.isVisible = true
+
+        val trackList = tracks.map {dto ->
+            Track(
+                trackName = dto.trackName ?: "Unknown",
+                artistName = dto.artistName ?: "Unknown",
+                trackTime = formatTime(dto.trackTimeMillis ?: 0),
+                artworkUrl100 = dto.artworkUrl100 ?: ""
+            )
+        }
+        adapter.updateTracks(trackList)
+    }
+
+    private  fun showLoading() {
+        progressBar.isVisible = true
+        recyclerView.isVisible = false
+        placeholderContainer.isVisible = false
+    }
+
+    private  fun showError() {
+        progressBar.isVisible = false
+        recyclerView.isVisible = false
+        placeholderContainer.isVisible = true
+
+        placeholderImage.setImageResource(getPlaceholderImage(true))
+        placeholderTitle.text = getString(R.string.error_network_title)
+        errorSubtitle.text = getString(R.string.error_network_subtitle)
+        errorSubtitle.isVisible = true
+        retryButton.isVisible = true
+    }
+
+    private fun showEmpty () {
+        progressBar.isVisible = false
+        recyclerView.isVisible = false
+        placeholderContainer.isVisible = true
+
+        placeholderImage.setImageResource(getPlaceholderImage(false))
+        placeholderTitle.text = getString(R.string.empty_result)
+        errorSubtitle.isVisible = false
+        retryButton.isVisible = false
+    }
+    private fun clearResults () {
+        adapter.updateTracks(emptyList())
+        progressBar.isVisible = false
+        recyclerView.isVisible = false
+        placeholderContainer.isVisible = false
+    }
+    private  fun formatTime(millis: Long) : String {
+        val totalSeconds = (millis / 1000).toInt()
+        val minutes = totalSeconds / 60
+        val seconds = totalSeconds % 60
+        return "%02d:%02d".format(minutes, seconds)
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString("SEARCH_TEXT", searchText)
+        outState.putString(SEARCH_TEXT_KEY, searchText)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        val savedText = savedInstanceState.getString("SEARCH_TEXT", "")
+        val savedText = savedInstanceState.getString(SEARCH_TEXT_KEY, "")
         if (savedText.isNotEmpty()) {
             searchEditText.setText(savedText)
             searchEditText.setSelection(savedText.length)
