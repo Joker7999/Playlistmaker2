@@ -21,8 +21,8 @@ android:background="?attr/colorSurface">
     android:id="@+id/theme_switch"
     style="@style/Settings"
     android:text="@string/dark_theme"
-    app:thumbTint="?attr/switchThumbTint"
-    app:trackTint="?attr/switchTrackTint"/>
+    app:thumbTint="?attr/switch_thumb"
+    app:trackTint="?attr/switch_track" />
 
 <!-- Поделиться приложением -->
 

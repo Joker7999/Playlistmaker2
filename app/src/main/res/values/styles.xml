@@ -99,6 +99,4 @@
         <item name="android:textColorHint">?attr/searchTint</item>
         <item name="android:textCursorDrawable">@null</item>
     </style>
-
-
 </resources>

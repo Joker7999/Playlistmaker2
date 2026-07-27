@@ -1,19 +1,32 @@
-<resources>
 
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
     <style name="Base.Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-
-
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/black</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSurface">@color/black</item>
         <item name="colorOnSurface">@color/white</item>
         <item name="searchTint">@color/black</item>
-        <item name="settingsIconTint">@color/white</item>
-        <item name="switchThumbTint">@color/blue</item>
-        <item name="switchTrackTint">@color/switch_track_dark</item>
         <item name="trackColor">@color/white</item>
         <item name="retryButtonBackgroundTint">@color/white</item>
         <item name="retryButtonTextColor">@color/black</item>
+        <item name="switch_thumb">@color/switch_thumb</item>
+        <item name="switch_track">@color/switch_track</item>
+
+    </style>
+
+    <style name="ThemeOverlay.Placeholder">
+        <item name="colorOnSurface">@color/white</item>
+
+
+    </style>
+
+    <style name="ThemeOverlay">
+        <item name="colorOnSurface">@color/white</item>
+
+
     </style>
 
 
