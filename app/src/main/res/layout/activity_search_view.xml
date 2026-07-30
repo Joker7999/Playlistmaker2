@@ -9,8 +9,6 @@
     android:orientation="vertical">
 
 
-    <!-- Заголовок с иконкой назад -->
-
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tbSearch"
         style="@style/TitleIcBack"
@@ -24,7 +22,6 @@
         android:layout_marginEnd="@dimen/spacing_l"
         android:background="@drawable/search_edit_text_background">
 
-        <!-- поле поиского запроса -->
         <EditText
             android:id="@+id/searchEditText"
             style="@style/SearchEditText"
@@ -32,20 +29,20 @@
             android:layout_height="wrap_content"
             android:hint="@string/search"
             android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="text"
             android:singleLine="true"
             android:paddingVertical="@dimen/spacing_m"
             android:paddingStart="@dimen/spacing_xxxl"
             android:paddingEnd="@dimen/spacing_xxxl" />
 
-        <!--иконка лупа-->
         <ImageView
             style="@style/Icon"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/spacing_m"
+            android:contentDescription="@null"
             android:src="@drawable/ic_search_16"
             app:tint="?attr/searchTint" />
-
-        <!--очистка иконка-->
 
         <ImageView
             android:id="@+id/clearButton"
@@ -62,7 +59,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/spacing_none"
+        android:layout_height="0dp"
         android:layout_weight="1">
 
 
@@ -81,15 +78,12 @@
             android:layout_gravity="center"
             android:visibility="gone" />
 
-        <!--заглушка ничего не найдено-->
-
         <LinearLayout
             android:id="@+id/placeholderContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
-
             android:visibility="gone"
             tools:visibility="visible">
 
@@ -98,11 +92,11 @@
                 android:layout_height="@dimen/spacing_none"
                 android:layout_weight="0.1" />
 
-
             <ImageView
                 android:id="@+id/placeholderImage"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:contentDescription="@null" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/placeholderTitle"
@@ -110,9 +104,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_xxl" />
-
-
-            <!--заглушка нет сети-->
 
 
             <com.google.android.material.textview.MaterialTextView
@@ -131,11 +122,52 @@
                 android:text="@string/retry_button"
                 tools:visibility="visible"/>
 
-
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/spacing_none"
                 android:layout_weight="0.2" />
         </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/llCacheContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorSurface"
+            android:fillViewport="true"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/historyTitle"
+                    style="@style/TextAppearance.PlaylistMaker.Placeholder.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/search_history_header_height"
+                    android:layout_marginTop="@dimen/search_history_top"
+                    android:gravity="center"
+                    android:text="@string/user_search" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/historyRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_marginTop="@dimen/spacing_s"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/clearHistoryButton"
+                    style="@style/Widget.PlaylistMaker.Button.HistoryClear"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_xxl"
+                    android:layout_marginBottom="@dimen/spacing_xxl"
+                    android:text="@string/clear_history" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </FrameLayout>
 </LinearLayout>

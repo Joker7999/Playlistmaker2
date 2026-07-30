@@ -1,52 +1,54 @@
 package com.example.playlistmaker2
 
+
+
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.google.gson.Gson
+import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
-import kotlin.collections.emptyList
 
 class SearchHistory(
     private val sharedPreferences: SharedPreferences,
-    private val gson : Gson
+    private val gson: Gson = Gson()
 ) {
-
-
 
     fun getHistory(): List<Track> {
         val json = sharedPreferences.getString(Constants.HISTORY_KEY, null)
-        return if (json != null) {
-            val type = object : TypeToken<List<Track>>() {}.type
-            gson.fromJson(json, type) ?: emptyList()
-        } else {
-            emptyList()
+            ?: return emptyList()
 
+        return try {
+            gson.fromJson<List<Track>>(json, HISTORY_TYPE).orEmpty()
+        } catch (_: JsonParseException) {
+            clearHistory()
+            emptyList()
         }
     }
 
     fun addTrack(track: Track) {
-        var history = getHistory().toMutableList()
+        val updatedHistory = getHistory()
+            .filterNot { savedTrack -> savedTrack.trackId == track.trackId }
+            .toMutableList()
+            .apply { add(0, track) }
+            .take(MAX_HISTORY_SIZE)
 
-        history.removeAll { it.trackId == track.trackId }
-        history.add(0, track)
-
-        if (history.size > 10) {
-            history = history.take(10).toMutableList()
-        }
-        saveHistory(history)
-
+        saveHistory(updatedHistory)
     }
 
     fun clearHistory() {
-        saveHistory(emptyList())
-
+        sharedPreferences.edit {
+            remove(Constants.HISTORY_KEY)
+        }
     }
 
     private fun saveHistory(history: List<Track>) {
-        val json = gson.toJson(history)
-
-        sharedPreferences.edit()
-            .putString(Constants.HISTORY_KEY, json)
-            .apply()
+        sharedPreferences.edit {
+            putString(Constants.HISTORY_KEY, gson.toJson(history))
+        }
     }
 
+    private companion object {
+        const val MAX_HISTORY_SIZE = 10
+        val HISTORY_TYPE = object : TypeToken<List<Track>>() {}.type
+    }
 }

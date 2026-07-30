@@ -6,6 +6,7 @@
         <item name="colorSurface">@color/white</item>
         <item name="colorOnSurface">@color/black</item>
         <item name="searchTint">@color/gray</item>
+        <item name="settingsIconTint">@color/gray</item>
         <item name="trackColor">@color/gray</item>
         <item name="retryButtonBackgroundTint">@color/black</item>
         <item name="retryButtonTextColor">@color/white</item>

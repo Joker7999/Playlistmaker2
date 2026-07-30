@@ -17,19 +17,15 @@
         android:paddingBottom="@dimen/spacing_s">
 
 
-        <!--обложка-->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivTrackCover"
             android:layout_width="@dimen/size_45"
             android:layout_height="@dimen/size_45"
+            android:contentDescription="@null"
             android:scaleType="centerCrop"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/roundedImageView" />
-        <!--инфо о треке-->
-
-
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvTrackName"
             android:layout_width="@dimen/spacing_none"
@@ -57,21 +53,25 @@
             android:maxLines="1"
             android:textColor="?attr/trackColor"
             android:textSize="@dimen/text_size_body_s"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintEnd_toStartOf="@id/ivDot"
             app:layout_constraintStart_toStartOf="@id/tvTrackName"
             app:layout_constraintTop_toBottomOf="@id/tvTrackName"
             tools:text="Nirvana" />
 
-        <!-- Разделитель (точка) -->
         <ImageView
             android:id="@+id/ivDot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@null"
             android:src="@drawable/ic_dot_13"
             app:tint="?attr/trackColor"
             app:layout_constraintBottom_toBottomOf="@id/tvArtistName"
+            app:layout_constraintEnd_toStartOf="@id/tvTrackTime"
             app:layout_constraintStart_toEndOf="@id/tvArtistName" />
 
-        <!-- Время -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvTrackTime"
             android:layout_width="wrap_content"
@@ -79,17 +79,17 @@
             android:fontFamily="@font/ys_display_regular"
             android:textColor="?attr/trackColor"
             android:textSize="@dimen/text_size_body_s"
+            app:layout_constraintEnd_toStartOf="@id/ivArrow"
             app:layout_constraintStart_toEndOf="@id/ivDot"
             app:layout_constraintTop_toTopOf="@id/tvArtistName"
             tools:text="5:01" />
 
 
-        <!--стрелка вправо-->
-
         <ImageView
             android:id="@+id/ivArrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@null"
             android:src="@drawable/ic_arrow_agreement_24"
             app:tint="?attr/trackColor"
             app:layout_constraintBottom_toBottomOf="parent"
