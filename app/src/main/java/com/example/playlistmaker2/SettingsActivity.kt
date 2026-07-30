@@ -1,14 +1,15 @@
 package com.example.playlistmaker2
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.textview.MaterialTextView
 import com.google.android.material.switchmaterial.SwitchMaterial
-import androidx.appcompat.app.AppCompatDelegate
-import android.content.res.Configuration
+import com.google.android.material.textview.MaterialTextView
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,23 +17,22 @@ class SettingsActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_settings)
 
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.root)) { view, insets ->
+            val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            view.updatePadding(top = statusBar.top)
+            insets
+        }
+
         val backButton = findViewById<MaterialToolbar>(R.id.tbSettings)
         val shareItem = findViewById<MaterialTextView>(R.id.tv_share)
         val supportItem = findViewById<MaterialTextView>(R.id.tv_support)
         val agreementItem = findViewById<MaterialTextView>(R.id.tv_agreement)
-        val themeSwitch = findViewById<SwitchMaterial>(R.id.theme_switch)
 
-        val isDarkTheme = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
-        android.util.Log.d("PlaylistMaker", "onCreate: isDarkTheme=$isDarkTheme")
-        themeSwitch.isChecked = isDarkTheme
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.theme_switch)
+        themeSwitcher.isChecked = (applicationContext as App).darkTheme
+        themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
+            (applicationContext as App).switchTheme(isChecked)
 
-        themeSwitch.setOnCheckedChangeListener { _, isChecked ->
-            android.util.Log.d("PlaylistMaker", "themeSwitch toggled: isChecked=$isChecked")
-            if (isChecked) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
         }
 
         backButton.setNavigationOnClickListener {
@@ -47,17 +47,20 @@ class SettingsActivity : AppCompatActivity() {
         }
         supportItem.setOnClickListener {
             val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("mailto:")
+                data = "mailto:".toUri()
                 putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.support_email)))
                 putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_subject))
                 putExtra(Intent.EXTRA_TEXT, getString(R.string.support_body))
+
             }
             startActivity(Intent.createChooser(emailIntent, null))
         }
         agreementItem.setOnClickListener {
             val termsUrl = getString(R.string.terms_url)
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(termsUrl))
+            val browserIntent = Intent(Intent.ACTION_VIEW, termsUrl.toUri())
             startActivity(browserIntent)
         }
+
+
     }
 }

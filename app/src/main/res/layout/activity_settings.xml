@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical"
-    android:fitsSystemWindows="true"
-android:background="?attr/colorSurface">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/colorSurface">
 
-<!-- Заголовок с иконкой назад -->
+    <!-- Заголовок с иконкой назад -->
 
-<com.google.android.material.appbar.MaterialToolbar
-    android:id="@+id/tbSettings"
-    style="@style/TitleIcBack"
-    app:title="@string/settings" />
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tbSettings"
+        style="@style/TitleIcBack"
+        app:title="@string/settings" />
 
 
-<!--темная тема-->
+    <!--темная тема-->
 
-<com.google.android.material.switchmaterial.SwitchMaterial
-    android:id="@+id/theme_switch"
-    style="@style/Settings"
-    android:text="@string/dark_theme"
-    app:thumbTint="?attr/switchThumbTint"
-    app:trackTint="?attr/switchTrackTint"/>
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/theme_switch"
+        style="@style/Settings"
+        android:text="@string/dark_theme"
+        app:thumbTint="?attr/switch_thumb"
+        app:trackTint="?attr/switch_track" />
 
-<!-- Поделиться приложением -->
+    <!-- Поделиться приложением -->
 
-<com.google.android.material.textview.MaterialTextView
-    android:id="@+id/tv_share"
-    style="@style/Settings"
-    android:text="@string/share_app"
-    android:drawableEnd="@drawable/ic_share"/>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_share"
+        style="@style/Settings"
+        android:text="@string/share_app"
+        android:drawableEnd="@drawable/ic_share"/>
 
-<!-- Написать в поддержку -->
+    <!-- Написать в поддержку -->
 
-<com.google.android.material.textview.MaterialTextView
-    android:id="@+id/tv_support"
-    style="@style/Settings"
-    android:text="@string/write_to_support"
-    android:drawableEnd="@drawable/ic_support"/>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_support"
+        style="@style/Settings"
+        android:text="@string/write_to_support"
+        android:drawableEnd="@drawable/ic_support"/>
 
-<!-- Пользовательское соглашение -->
+    <!-- Пользовательское соглашение -->
 
-<com.google.android.material.textview.MaterialTextView
-    android:id="@+id/tv_agreement"
-    style="@style/Settings"
-    android:text="@string/user_agreement"
-    android:drawableEnd="@drawable/ic_arrow"/>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_agreement"
+        style="@style/Settings"
+        android:text="@string/user_agreement"
+        android:drawableEnd="@drawable/ic_arrow"/>
 
 </LinearLayout>

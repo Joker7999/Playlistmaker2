@@ -77,6 +77,18 @@
         <item name="android:paddingBottom">@dimen/size_6</item>
         <item name="android:textSize">@dimen/text_size_body_ss</item>
     </style>
+    <style name="Widget.PlaylistMaker.Button.HistoryClear" parent="Widget.PlaylistMaker.Button.Retry">
+        <item name="android:layout_height">@dimen/compact_button_height</item>
+        <item name="android:minHeight">@dimen/spacing_none</item>
+        <item name="android:minWidth">@dimen/spacing_none</item>
+        <item name="android:paddingStart">@dimen/compact_button_horizontal_padding</item>
+        <item name="android:paddingEnd">@dimen/compact_button_horizontal_padding</item>
+        <item name="android:paddingTop">@dimen/compact_button_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/compact_button_vertical_padding</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:insetTop">@dimen/spacing_none</item>
+        <item name="android:insetBottom">@dimen/spacing_none</item>
+    </style>
     <style name="TextAppearance.PlaylistMaker.Placeholder.Title" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="fontFamily">@font/ys_display_medium</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
@@ -99,6 +111,4 @@
         <item name="android:textColorHint">?attr/searchTint</item>
         <item name="android:textCursorDrawable">@null</item>
     </style>
-
-
 </resources>

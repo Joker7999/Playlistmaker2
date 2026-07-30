@@ -32,4 +32,9 @@
     <dimen name="size_45">45dp</dimen>
     <dimen name="text_size_body_s">11sp</dimen>
     <dimen name="track_cover_radius">2dp</dimen>
+    <dimen name="search_history_top">24dp</dimen>
+    <dimen name="search_history_header_height">52dp</dimen>
+    <dimen name="compact_button_height">36dp</dimen>
+    <dimen name="compact_button_horizontal_padding">14dp</dimen>
+    <dimen name="compact_button_vertical_padding">10dp</dimen>
 </resources>

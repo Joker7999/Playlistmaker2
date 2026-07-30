@@ -20,5 +20,6 @@
     <string name="error_network_title">Проблемы со связью</string>
     <string name="error_network_subtitle">Загрузка не удалась.\nПроверьте подключение к интернету</string>
     <string name="retry_button">Обновить</string>
-
+    <string name="clear_history">Очистить историю</string>
+    <string name="user_search">Вы искали</string>
 </resources>
