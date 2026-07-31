@@ -40,5 +40,8 @@
     <dimen name="size_100">100dp</dimen>
     <dimen name="text_size_body_sa">13sp</dimen>
     <dimen name="text_size_body_m">22sp</dimen>
+    <dimen name="audio_player_play_top_margin">28dp</dimen>
+    <dimen name="audio_player_info_row_height">32dp</dimen>
+    <dimen name="audio_player_info_top_margin">30dp</dimen>
 
 </resources>

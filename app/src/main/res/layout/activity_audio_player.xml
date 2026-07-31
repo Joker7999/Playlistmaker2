@@ -84,8 +84,8 @@
             android:contentDescription="@string/add_to_playlist"
             android:src="@drawable/ic_add_to_playlist_51"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
-            app:layout_constraintTop_toBottomOf="@id/tvArtistName"
-            android:layout_marginTop="@dimen/spacing_xxl" />
+            app:layout_constraintTop_toTopOf="@id/btnPlay"
+            app:layout_constraintBottom_toBottomOf="@id/btnPlay" />
 
 
         <!-- Кнопка Play/Pause  -->
@@ -94,6 +94,7 @@
             style="@style/AudioPlayerIconButton"
             android:layout_width="@dimen/size_100"
             android:layout_height="@dimen/size_100"
+            android:layout_marginTop="@dimen/audio_player_play_top_margin"
             android:contentDescription="@string/play"
             android:src="@drawable/ic_play_100"
             app:tint="?attr/colorOnSurface"
@@ -112,7 +113,8 @@
             android:contentDescription="@string/add_to_favorite"
             android:src="@drawable/ic_favorite_border_51"
             app:layout_constraintEnd_toEndOf="@id/rightGuideline"
-            app:layout_constraintTop_toTopOf="@id/btnAddToPlaylist" />
+            app:layout_constraintTop_toTopOf="@id/btnPlay"
+            app:layout_constraintBottom_toBottomOf="@id/btnPlay"/>
 
 
         <!-- 5. Прогресс времени -->
@@ -143,46 +145,52 @@
         <TextView
             android:id="@+id/tvDurationLeft"
             style="@style/AudioPlayerLabel"
+            android:layout_height="@dimen/audio_player_info_row_height"
+            android:gravity="center_vertical"
             android:text="@string/duration_label"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
             app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
             app:layout_constraintTop_toBottomOf="@id/tvProgressTime"
-            android:layout_marginTop="@dimen/spacing_xxl"/>
+            android:layout_marginTop="@dimen/audio_player_info_top_margin"/>
 
         <TextView
             android:id="@+id/tvAlbumLeft"
             style="@style/AudioPlayerLabel"
+            android:layout_height="@dimen/audio_player_info_row_height"
+            android:gravity="center_vertical"
             android:text="@string/album_label"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
             app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
-            app:layout_constraintTop_toBottomOf="@id/tvDurationLeft"
-            android:layout_marginTop="@dimen/spacing_s" />
+            app:layout_constraintTop_toBottomOf="@id/tvDurationLeft" />
 
         <TextView
             android:id="@+id/tvYearLeft"
             style="@style/AudioPlayerLabel"
+            android:layout_height="@dimen/audio_player_info_row_height"
+            android:gravity="center_vertical"
             android:text="@string/year_label"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
             app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
-            app:layout_constraintTop_toBottomOf="@id/tvAlbumLeft"
-            android:layout_marginTop="@dimen/spacing_s" />
+            app:layout_constraintTop_toBottomOf="@id/tvAlbumLeft" />
         <TextView
             android:id="@+id/tvGenreLeft"
             style="@style/AudioPlayerLabel"
+            android:layout_height="@dimen/audio_player_info_row_height"
+            android:gravity="center_vertical"
             android:text="@string/genre_label"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
             app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
-            app:layout_constraintTop_toBottomOf="@id/tvYearLeft"
-            android:layout_marginTop="@dimen/spacing_s" />
+            app:layout_constraintTop_toBottomOf="@id/tvYearLeft" />
 
         <TextView
             android:id="@+id/tvCountryLeft"
             style="@style/AudioPlayerLabel"
+            android:layout_height="@dimen/audio_player_info_row_height"
+            android:gravity="center_vertical"
             android:text="@string/country_label"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
             app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
-            app:layout_constraintTop_toBottomOf="@id/tvGenreLeft"
-            android:layout_marginTop="@dimen/spacing_s" />
+            app:layout_constraintTop_toBottomOf="@id/tvGenreLeft" />
 
         <TextView
             android:id="@+id/tvDurationRight"
