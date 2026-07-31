@@ -37,4 +37,8 @@
     <dimen name="compact_button_height">36dp</dimen>
     <dimen name="compact_button_horizontal_padding">14dp</dimen>
     <dimen name="compact_button_vertical_padding">10dp</dimen>
+    <dimen name="size_100">100dp</dimen>
+    <dimen name="text_size_body_sa">13sp</dimen>
+    <dimen name="text_size_body_m">22sp</dimen>
+
 </resources>

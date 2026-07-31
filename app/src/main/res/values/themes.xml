@@ -12,6 +12,7 @@
         <item name="retryButtonTextColor">@color/white</item>
         <item name="switch_thumb">@color/switch_thumb</item>
         <item name="switch_track">@color/switch_track</item>
+        <item name="audioPlayerIconColor">@color/black</item>
 
 
     </style>
