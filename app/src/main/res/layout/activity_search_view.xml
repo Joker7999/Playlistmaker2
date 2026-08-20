@@ -8,12 +8,14 @@
     android:background="?attr/colorSurface"
     android:orientation="vertical">
 
+    <!-- Заголовок с иконкой назад -->
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tbSearch"
         style="@style/TitleIcBack"
         app:title="@string/search" />
 
+    <!-- поле поиского запроса -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,27 +24,25 @@
         android:layout_marginEnd="@dimen/spacing_l"
         android:background="@drawable/search_edit_text_background">
 
+
         <EditText
             android:id="@+id/searchEditText"
             style="@style/SearchEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="@string/search"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:singleLine="true"
             android:paddingVertical="@dimen/spacing_m"
-            android:paddingStart="@dimen/spacing_xxxl"
-            android:paddingEnd="@dimen/spacing_xxxl" />
+            android:paddingStart="@dimen/spacing_xxxl"  />
 
+        <!--иконка лупа-->
         <ImageView
             style="@style/Icon"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/spacing_m"
-            android:contentDescription="@null"
             android:src="@drawable/ic_search_16"
             app:tint="?attr/searchTint" />
+
+        <!--очистка иконка-->
 
         <ImageView
             android:id="@+id/clearButton"
@@ -57,11 +57,13 @@
 
     </FrameLayout>
 
-    <FrameLayout
+    <!--история поиска -->
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
+        android:layout_weight="1"
+        >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTracks"
@@ -69,34 +71,37 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingTop="@dimen/spacing_xxl"
+            android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+        <!-- 2. ПРОГРЕСС БАР (по центру) -->
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_centerInParent="true"
             android:visibility="gone" />
 
+        <!-- 3. ЗАГЛУШКА (ошибка/пусто) -->
         <LinearLayout
             android:id="@+id/placeholderContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
+            android:theme="@style/ThemeOverlay.Placeholder"
             android:visibility="gone"
             tools:visibility="visible">
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/spacing_none"
+                android:layout_height="0dp"
                 android:layout_weight="0.1" />
 
             <ImageView
                 android:id="@+id/placeholderImage"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@null" />
+                android:layout_height="wrap_content" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/placeholderTitle"
@@ -104,7 +109,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_xxl" />
-
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/errorSubtitle"
@@ -119,55 +123,57 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_xxl"
-                android:text="@string/retry_button"
-                tools:visibility="visible"/>
+                android:text="@string/retry_button" />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/spacing_none"
+                android:layout_height="0dp"
                 android:layout_weight="0.2" />
         </LinearLayout>
 
-        <androidx.core.widget.NestedScrollView
+        <!-- 4. ИСТОРИЯ ПОИСКА (КЭШ) -->
+        <LinearLayout
             android:id="@+id/llCacheContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/colorSurface"
-            android:fillViewport="true"
-            android:visibility="gone">
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- Заголовок -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/historyTitle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/size_54"
+                android:fontFamily="@font/ys_display_medium"
+                android:text="@string/user_search"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/text_size_body_l" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/historyTitle"
-                    style="@style/TextAppearance.PlaylistMaker.Placeholder.Title"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/search_history_header_height"
-                    android:layout_marginTop="@dimen/search_history_top"
-                    android:gravity="center"
-                    android:text="@string/user_search" />
+            <!-- Список истории -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/historyRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/historyRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:nestedScrollingEnabled="false"
-                    android:layout_marginTop="@dimen/spacing_s"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            <!-- Кнопка очистки -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/clearHistoryButton"
+                style="@style/Widget.PlaylistMaker.Button.Retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/spacing_xxl"
+                android:layout_marginBottom="@dimen/spacing_xxl"
+                android:text="@string/clear_history" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/clearHistoryButton"
-                    style="@style/Widget.PlaylistMaker.Button.HistoryClear"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_xxl"
-                    android:layout_marginBottom="@dimen/spacing_xxl"
-                    android:text="@string/clear_history" />
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-    </FrameLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>
