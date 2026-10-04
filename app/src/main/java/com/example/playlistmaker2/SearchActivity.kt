@@ -289,8 +289,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun openAudioPlayer(track: Track) {
         val intent = Intent(this, AudioPlayerActivity::class.java)
-        // Передаем только ID. Это примитивный тип (Long), поэтому putExtra его сразу примет.
-        intent.putExtra(Constants.TRACK_EXTRA, track.trackId)
+        intent.putExtra(Constants.TRACK_EXTRA, track)
         startActivity(intent)
     }
 
