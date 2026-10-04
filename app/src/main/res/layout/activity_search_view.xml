@@ -75,13 +75,16 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <!-- 2. ПРОГРЕСС БАР (по центру) -->
-        <ProgressBar
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:indeterminate="true"
+            app:indicatorColor="#3772E7"
+            app:indicatorSize="48dp"
             android:visibility="gone" />
-
         <!-- 3. ЗАГЛУШКА (ошибка/пусто) -->
         <LinearLayout
             android:id="@+id/placeholderContainer"
