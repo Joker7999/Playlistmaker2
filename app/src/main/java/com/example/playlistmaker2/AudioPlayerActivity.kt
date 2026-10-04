@@ -1,6 +1,9 @@
 package com.example.playlistmaker2
 
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 
 import android.widget.ImageButton
@@ -17,11 +20,31 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker2.utils.getParcelableExtraCompat
 import com.google.android.material.appbar.MaterialToolbar
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
-class AudioPlayerActivity: AppCompatActivity() {
+class AudioPlayerActivity : AppCompatActivity() {
+    companion object {
+        private const val STATE_DEFAULT = 0
+        private const val STATE_PREPARED = 1
+        private const val STATE_PLAYING = 2
+        private const val STATE_PAUSED = 3
+        private const val UPDATE_INTERVAL = 300L
+
+        private const val TAG = "AudioPlayer"
+    }
+    private val handler = Handler(Looper.getMainLooper())
+    private  val audioRunnable = Runnable {
+        updateCurrentTime()
+    }
+
+    private var playerState = STATE_DEFAULT
+    private var mediaPlayer : MediaPlayer? = null
+
     private var _track: Track? = null
-    private val track: Track get() = _track!!
+    private val track: Track
+        get() = requireNotNull(_track)
 
     private var isPlaying = false
     private var isFavorite = false
@@ -46,27 +69,21 @@ class AudioPlayerActivity: AppCompatActivity() {
     private lateinit var tvYearRight: TextView
     private lateinit var tvGenreRight: TextView
     private lateinit var tvCountryRight: TextView
-
+    //Кнопки
     private lateinit var btnAddToPlaylist: ImageButton
     private lateinit var btnPlay: ImageButton
     private lateinit var btnFavorite: ImageButton
+
     private lateinit var tvProgressTime: TextView
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_audio_player)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.root)) { view, insets ->
-            val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars())
-            val navigationBar = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
-            view.updatePadding(
-                top = statusBar.top,
-                bottom = navigationBar.bottom
-            )
-            insets
-        }
+        setupWindowInsets()
 
         _track = intent.getParcelableExtraCompat(Constants.TRACK_EXTRA)
             ?: throw IllegalArgumentException(Constants.ERROR_TRACK_MISSING)
@@ -75,7 +92,160 @@ class AudioPlayerActivity: AppCompatActivity() {
         initViews()
         bindData()
         setupListeners()
+        preparePlayer()
 
+    }
+    override fun onPause() {
+        super.onPause()
+        if (playerState == STATE_PLAYING) {
+            pausePlayer()
+        }
+    }
+    override fun onDestroy() {
+        releasePlayer()
+        super.onDestroy()
+
+    }
+    private fun setupWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(
+            findViewById(R.id.root)
+        ) { view, insets ->
+            val statusBarInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            val navigationBarInsets = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+
+            view.updatePadding(
+                top = statusBarInsets.top,
+                bottom = navigationBarInsets.bottom
+            )
+
+            insets
+        }
+    }
+    private fun preparePlayer() {
+        val previewUrl = track.previewUrl
+
+        if(previewUrl.isNullOrEmpty()) {
+            Log.d(TAG, "Track doesn't contain previewUrl")
+            btnPlay.isEnabled = false
+            return
+        }
+        releasePlayer()
+
+        val player = MediaPlayer()
+        mediaPlayer = player
+
+        try {
+
+            player.setOnPreparedListener {
+                btnPlay.isEnabled = true
+                playerState = STATE_PREPARED
+                updatePlayButton()
+            }
+
+            player.setOnCompletionListener {
+                playerState = STATE_PREPARED
+                updatePlayButton()
+                handler.removeCallbacks(audioRunnable)
+                tvProgressTime.text = getString(R.string.progress_time_format)
+            }
+
+            player.setOnErrorListener { _, what, extra ->
+                Log.e(TAG, "MediaPlayer error: what=$what, extra=$extra")
+                btnPlay.isEnabled = false
+                playerState = STATE_DEFAULT
+                updatePlayButton()
+                handler.removeCallbacks(audioRunnable)
+                true
+            }
+
+            player.setDataSource(previewUrl)
+            player.prepareAsync()
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to prepare MediaPlayer", e)
+
+            releasePlayer()
+        }
+    }
+
+    private fun updateCurrentTime() {
+        if (playerState == STATE_PLAYING) {
+            val player = mediaPlayer ?: return
+
+            val currentPosition = player.currentPosition
+            tvProgressTime.text = formatTime(currentPosition)
+
+            handler.postDelayed(audioRunnable, UPDATE_INTERVAL)
+        }
+    }
+    private fun formatTime(millis: Int): String {
+        return SimpleDateFormat("mm:ss", Locale.getDefault()).format(millis)
+    }
+
+
+    private fun startPlayer() {
+        val player = mediaPlayer ?: return
+        if (!player.isPlaying) {
+
+            player.start()
+        }
+        playerState = STATE_PLAYING
+        updatePlayButton()
+        handler.post(audioRunnable)
+    }
+
+    private fun pausePlayer() {
+        val player = mediaPlayer ?: return
+
+        if (player.isPlaying) {
+            player.pause()
+        }
+        playerState = STATE_PAUSED
+        updatePlayButton()
+        handler.removeCallbacks(audioRunnable)
+    }
+    private fun playbackControl() {
+        when(playerState) {
+            STATE_PREPARED, STATE_PAUSED -> {
+                startPlayer()
+            }
+            STATE_PLAYING -> {
+                pausePlayer()
+            }
+            STATE_DEFAULT -> {
+                Log.d(TAG, "Player isn't ready")
+            }
+
+        }
+    }
+    private fun updatePlayButton() {
+        when (playerState) {
+            STATE_PLAYING -> {
+                btnPlay.setImageResource(R.drawable.ic_pause_100)
+            }
+            STATE_PREPARED, STATE_PAUSED, STATE_DEFAULT -> {
+                btnPlay.setImageResource(R.drawable.ic_play_100)
+            }
+        }
+    }
+    private fun releasePlayer() {
+        handler.removeCallbacks(audioRunnable)
+        val player = mediaPlayer
+        if (player != null) {
+            try {
+                if (player.isPlaying) {
+                    player.stop()
+                }
+                player.release()
+            } catch (e: Exception) {
+                Log.e(TAG, "Error releasing MediaPlayer", e)
+            }
+            mediaPlayer = null
+        }
+
+        playerState = STATE_DEFAULT
+        btnPlay.isEnabled = false
+        btnPlay.setImageResource(R.drawable.ic_play_100)
     }
 
     private fun initViews() {
@@ -100,6 +270,7 @@ class AudioPlayerActivity: AppCompatActivity() {
         btnPlay = findViewById(R.id.btnPlay)
         btnFavorite = findViewById(R.id.btnFavorite)
         tvProgressTime = findViewById(R.id.tvProgressTime)
+        btnPlay.isEnabled = false
 
     }
 
@@ -155,10 +326,10 @@ class AudioPlayerActivity: AppCompatActivity() {
         loadCover()
     }
     private fun loadCover() {
-        val currentTrack = track ?: return
+
         val cornerRadius = resources.getDimensionPixelSize(R.dimen.spacing_s)
         Glide.with(this)
-            .load(currentTrack.getCoverArtwork())
+            .load(track.getCoverArtwork())
             .placeholder(R.drawable.ic_placeholder_45)
             .error(R.drawable.ic_placeholder_45)
             .centerCrop()
@@ -171,7 +342,7 @@ class AudioPlayerActivity: AppCompatActivity() {
             finish()
         }
         btnPlay.setOnClickListener {
-            Log.d("AudioPlayer", "Play/Pause")
+            playbackControl()
 
         }
         btnFavorite.setOnClickListener {

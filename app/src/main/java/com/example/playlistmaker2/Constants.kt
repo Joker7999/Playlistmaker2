@@ -8,4 +8,6 @@ object Constants {
     const val TRACK_EXTRA = "track"
     const val ERROR_TRACK_MISSING = "Track data is missing"
 
+    const val SEARCH_DEBOUNCE_DELAY = 2000L
+    const val CLICK_DEBOUNCE_DELAY = 1000L
 }
