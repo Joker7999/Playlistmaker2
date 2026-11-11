@@ -1,9 +1,11 @@
-package com.example.playlistmaker2
+package com.example.playlistmaker2.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker2.R
+import com.example.playlistmaker2.TrackViewHolder
 
 class TrackAdapter(
     private var tracks: List<Track>,

@@ -1,4 +1,4 @@
-package com.example.playlistmaker2.network
+package com.example.playlistmaker2.data
 
 import com.google.gson.annotations.SerializedName
 

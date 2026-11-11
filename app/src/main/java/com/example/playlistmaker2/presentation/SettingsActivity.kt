@@ -1,4 +1,4 @@
-package com.example.playlistmaker2
+package com.example.playlistmaker2.presentation
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,8 @@ import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import com.example.playlistmaker2.App
+import com.example.playlistmaker2.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textview.MaterialTextView

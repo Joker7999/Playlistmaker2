@@ -1,12 +1,21 @@
-package com.example.playlistmaker2
-
-
+package com.example.playlistmaker2.presentation
 
 import android.content.SharedPreferences
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
+import com.example.playlistmaker2.Constants
+import com.example.playlistmaker2.R
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
+
+class MediaActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_media_view)
+    }
+}
 
 class SearchHistory(
     private val sharedPreferences: SharedPreferences,

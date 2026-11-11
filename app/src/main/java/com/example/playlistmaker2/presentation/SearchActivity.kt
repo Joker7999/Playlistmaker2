@@ -1,9 +1,9 @@
-package com.example.playlistmaker2
+package com.example.playlistmaker2.presentation
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.View
+import android.os.Handler
+import android.os.Looper
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -18,25 +18,19 @@ import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
-
-import android.os.Handler
-import android.os.Looper
-
-import androidx.lifecycle.lifecycleScope
-
+import com.example.playlistmaker2.Constants
 import com.example.playlistmaker2.Constants.CLICK_DEBOUNCE_DELAY
 import com.example.playlistmaker2.Constants.SEARCH_DEBOUNCE_DELAY
 import com.example.playlistmaker2.Constants.SEARCH_TEXT_KEY
 import com.example.playlistmaker2.Constants.SETTINGS_PREFERENCES
-import com.example.playlistmaker2.network.RetrofitClient
-import com.example.playlistmaker2.network.TrackDto
+import com.example.playlistmaker2.R
+import com.example.playlistmaker2.creator.Creator
+import com.example.playlistmaker2.domain.api.TracksInteractor
+import com.example.playlistmaker2.domain.models.Track
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SearchActivity : AppCompatActivity() {
 
@@ -44,29 +38,26 @@ class SearchActivity : AppCompatActivity() {
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
 
+    private val tracksInteractor = Creator.provideTracksInteractor()
 
-    // VIEWS
     private lateinit var searchEditText: EditText
     private lateinit var clearButton: ImageView
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TrackAdapter
     private lateinit var progressBar: ProgressBar
 
-    //PLACEHOLDERS
     private lateinit var placeholderContainer: LinearLayout
     private lateinit var placeholderTitle: MaterialTextView
     private lateinit var placeholderImage: ImageView
     private lateinit var errorSubtitle: MaterialTextView
     private lateinit var retryButton: MaterialButton
 
-    //HISTORY
     private lateinit var searchHistory: SearchHistory
     private lateinit var historyAdapter: TrackAdapter
     private lateinit var historyRecyclerView: RecyclerView
     private lateinit var historyTitle: TextView
     private lateinit var clearHistoryButton: MaterialButton
     private lateinit var cacheContainer: LinearLayout
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,7 +90,6 @@ class SearchActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacks(searchRunnable)
-
     }
 
     private fun setupEdgeToEdge() {
@@ -128,15 +118,12 @@ class SearchActivity : AppCompatActivity() {
         errorSubtitle = findViewById(R.id.errorSubtitle)
         retryButton = findViewById(R.id.retryButton)
         cacheContainer = findViewById(R.id.llCacheContainer)
-
     }
 
     private fun setupListeners() {
         retryButton.setOnClickListener { performSearch() }
 
-        searchEditText.doOnTextChanged { text, start, before, count ->
-
-
+        searchEditText.doOnTextChanged { text, _, _, _ ->
             if (!text.isNullOrEmpty()) {
                 clearButton.isVisible = true
                 hideHistory()
@@ -147,6 +134,7 @@ class SearchActivity : AppCompatActivity() {
                 updateHistoryVisibility()
             }
         }
+
         searchEditText.setOnFocusChangeListener { _, _ ->
             updateHistoryVisibility()
         }
@@ -156,8 +144,8 @@ class SearchActivity : AppCompatActivity() {
             hideKeyboard()
             clearResults()
             updateHistoryVisibility()
-
         }
+
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 performSearch()
@@ -176,12 +164,10 @@ class SearchActivity : AppCompatActivity() {
             }
         }
         recyclerView.adapter = adapter
-
     }
 
     private fun setupHistory() {
         val sharedPrefs = getSharedPreferences(SETTINGS_PREFERENCES, MODE_PRIVATE)
-
         val gson = Gson()
         searchHistory = SearchHistory(sharedPrefs, gson)
     }
@@ -198,8 +184,6 @@ class SearchActivity : AppCompatActivity() {
                 updateHistoryVisibility()
             }
         }
-
-
         historyRecyclerView.adapter = historyAdapter
 
         clearHistoryButton.setOnClickListener {
@@ -208,16 +192,16 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-
     private fun searchDebounce() {
         handler.removeCallbacks(searchRunnable)
         handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
     }
-    private fun clickDebounce() : Boolean {
+
+    private fun clickDebounce(): Boolean {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true}, CLICK_DEBOUNCE_DELAY)
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
         }
         return current
     }
@@ -228,11 +212,12 @@ class SearchActivity : AppCompatActivity() {
         val isSearchEmpty = searchEditText.text.isNullOrEmpty()
         val isFocused = searchEditText.hasFocus()
 
+
         val shouldShowHistory = hasHistory && isSearchEmpty && isFocused
-        cacheContainer.visibility = if (shouldShowHistory) View.VISIBLE else View.GONE
-        historyTitle.visibility = if (shouldShowHistory) View.VISIBLE else View.GONE
-        historyRecyclerView.visibility = if (shouldShowHistory) View.VISIBLE else View.GONE
-        clearHistoryButton.visibility = if (shouldShowHistory) View.VISIBLE else View.GONE
+        cacheContainer.isVisible = shouldShowHistory
+        historyTitle.isVisible = shouldShowHistory
+        historyRecyclerView.isVisible = shouldShowHistory
+        clearHistoryButton.isVisible = shouldShowHistory
 
         if (shouldShowHistory) {
             historyAdapter.updateTracks(history)
@@ -248,40 +233,33 @@ class SearchActivity : AppCompatActivity() {
 
     private fun performSearch() {
         val query = searchEditText.text.toString().trim()
-        Log.d("SearchActivity", "🔍 Поиск: '$query'")
         if (query.isEmpty()) return
 
         hideKeyboard()
         showLoading()
         hideHistory()
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                Log.d("SearchActivity", "Отправка запроса...")
-                val response = RetrofitClient.api.searchTracks(query)
-                Log.d("SearchActivity", "Ответ получен, resultCount: ${response.resultCount}")
-                withContext(Dispatchers.Main) {
-                    if (response.resultCount > 0) {
-                        showTracks(response.results)
-
+        tracksInteractor.searchTracks(query, object : TracksInteractor.TracksConsumer {
+            override fun consume(foundTracks: List<Track>?, errorMessage: String?) {
+                runOnUiThread {
+                    progressBar.isVisible = false
+                    if (foundTracks != null) {
+                        if (foundTracks.isNotEmpty()) {
+                            showTracks(foundTracks)
+                        } else {
+                            showEmpty()
+                        }
                     } else {
-                        showEmpty()
+                        showError()
                     }
                 }
-            } catch (e: Exception) {
-                Log.e("SearchActivity", "ОШИБКА: ${e.message}", e)
-                withContext(Dispatchers.Main) {
-                    showError()
-                }
             }
-        }
+        })
     }
 
     private fun getPlaceholderImage(isNetworkError: Boolean): Int {
         return if (isNetworkError) {
-
             R.drawable.ic_error_network_120
-
         } else {
             R.drawable.ic_error_empty_120
         }
@@ -293,30 +271,13 @@ class SearchActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun showTracks(tracksDto: List<TrackDto>) {
+    private fun showTracks(tracks: List<Track>) {
         progressBar.isVisible = false
         recyclerView.isVisible = true
         placeholderContainer.isVisible = false
-
-        val trackList = tracksDto.map { dto ->
-            Track(
-                // Используем ИМЕНОВАННЫЕ параметры. Это ключ к решению ошибки!
-                trackId = dto.trackId,
-                trackName = dto.trackName ?: "Unknown Track",
-                artistName = dto.artistName ?: "Unknown Artist",
-                trackTime = formatTime(dto.trackTimeMillis ?: 0),
-                artworkUrl100 = dto.artworkUrl100 ?: "",
-                collectionName = dto.collectionName,
-                releaseDate = dto.releaseDate,
-                primaryGenreName = dto.primaryGenreName,
-                country = dto.country,
-                // Вот оно! Поле есть в DTO, берем его явно.
-                previewUrl= dto.previewUrl
-            )
-        }
-
-        adapter.updateTracks(trackList)
+        adapter.updateTracks(tracks)
     }
+
     private fun showLoading() {
         progressBar.isVisible = true
         recyclerView.isVisible = false
@@ -352,13 +313,6 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.isVisible = false
         placeholderContainer.isVisible = false
         hideHistory()
-    }
-
-    private fun formatTime(millis: Long): String {
-        val totalSeconds = (millis / 1000).toInt()
-        val minutes = totalSeconds / 60
-        val seconds = totalSeconds % 60
-        return "%02d:%02d".format(minutes, seconds)
     }
 
     private fun hideKeyboard() {

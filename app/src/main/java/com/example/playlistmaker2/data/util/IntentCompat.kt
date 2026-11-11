@@ -1,4 +1,4 @@
-package com.example.playlistmaker2.utils
+package com.example.playlistmaker2.data.util
 
 import android.content.Intent
 import android.os.Build
