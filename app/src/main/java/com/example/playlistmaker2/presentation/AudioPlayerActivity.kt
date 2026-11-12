@@ -17,10 +17,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker2.Constants
 import com.example.playlistmaker2.R
-import com.example.playlistmaker2.data.util.getParcelableExtraCompat
+import com.example.playlistmaker2.presentation.util.getParcelableExtraCompat
 import com.google.android.material.appbar.MaterialToolbar
 import java.text.SimpleDateFormat
 import java.util.Locale
+import com.example.playlistmaker2.domain.models.Track
 
 class AudioPlayerActivity : AppCompatActivity() {
     companion object {

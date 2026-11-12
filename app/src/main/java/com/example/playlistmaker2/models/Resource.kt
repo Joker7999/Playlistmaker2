@@ -1,4 +1,5 @@
-package com.example.playlistmaker2.util
+package com.example.playlistmaker2.models
+
 
 sealed class Resource<T>(val data: T? = null,
     val message:String? = null){

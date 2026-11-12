@@ -1,12 +1,12 @@
-package com.example.playlistmaker2.domian.api
+package com.example.playlistmaker2.domain.api
+
+import com.example.playlistmaker2.domain.models.Track
+
+interface TracksInteractor { fun searchTracks(expression: String, consumer: TracksConsumer)
 
 
 
-interface TracksInteractor {
-    fun searchTracks(expression: String,consumer: TracksConsumer)
-
-    interface TracksConsumer { fun consume(foundTrack:
-    List<Track>?, errorMessage: String?)
+    interface TracksConsumer {
+        fun consume(foundTracks: List<Track>?, errorMessage: String?)
     }
-
 }

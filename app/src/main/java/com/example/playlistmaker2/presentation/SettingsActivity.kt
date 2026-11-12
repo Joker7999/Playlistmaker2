@@ -1,5 +1,6 @@
 package com.example.playlistmaker2.presentation
 
+import com.example.playlistmaker2.creator.Creator
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textview.MaterialTextView
 
 class SettingsActivity : AppCompatActivity() {
+    private val settingsInteractor = Creator.provideSettingsInteractor()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,12 +33,7 @@ class SettingsActivity : AppCompatActivity() {
         val agreementItem = findViewById<MaterialTextView>(R.id.tv_agreement)
 
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.theme_switch)
-        themeSwitcher.isChecked = (applicationContext as App).darkTheme
-        themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
-            (applicationContext as App).switchTheme(isChecked)
-
-        }
-
+        themeSwitcher.isChecked = settingsInteractor.getDarkTheme() themeSwitcher.setOnCheckedChangeListener { _, isChecked -> settingsInteractor.setDarkTheme(isChecked) (application as App).applyTheme(isChecked) }
         backButton.setNavigationOnClickListener {
             finish()
         }

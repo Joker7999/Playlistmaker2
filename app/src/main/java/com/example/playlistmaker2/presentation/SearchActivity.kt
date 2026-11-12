@@ -22,7 +22,7 @@ import com.example.playlistmaker2.Constants
 import com.example.playlistmaker2.Constants.CLICK_DEBOUNCE_DELAY
 import com.example.playlistmaker2.Constants.SEARCH_DEBOUNCE_DELAY
 import com.example.playlistmaker2.Constants.SEARCH_TEXT_KEY
-import com.example.playlistmaker2.Constants.SETTINGS_PREFERENCES
+import com.example.playlistmaker2.domain.api.SearchHistoryInteractor
 import com.example.playlistmaker2.R
 import com.example.playlistmaker2.creator.Creator
 import com.example.playlistmaker2.domain.api.TracksInteractor
@@ -30,7 +30,7 @@ import com.example.playlistmaker2.domain.models.Track
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
-import com.google.gson.Gson
+
 
 class SearchActivity : AppCompatActivity() {
 
@@ -52,7 +52,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var errorSubtitle: MaterialTextView
     private lateinit var retryButton: MaterialButton
 
-    private lateinit var searchHistory: SearchHistory
+    private val searchHistoryInteractor = Creator.provideSearchHistoryInteractor()
     private lateinit var historyAdapter: TrackAdapter
     private lateinit var historyRecyclerView: RecyclerView
     private lateinit var historyTitle: TextView
@@ -67,7 +67,7 @@ class SearchActivity : AppCompatActivity() {
         setupEdgeToEdge()
         setupToolbar()
         setupRecyclerView()
-        setupHistory()
+
         setupHistoryRecyclerView()
         setupListeners()
         updateHistoryVisibility()
@@ -159,18 +159,14 @@ class SearchActivity : AppCompatActivity() {
         adapter = TrackAdapter(emptyList()) { track ->
             if (clickDebounce()) {
                 openAudioPlayer(track)
-                searchHistory.addTrack(track)
+                searchHistoryInteractor.addTrack(track)
                 updateHistoryVisibility()
             }
         }
         recyclerView.adapter = adapter
     }
 
-    private fun setupHistory() {
-        val sharedPrefs = getSharedPreferences(SETTINGS_PREFERENCES, MODE_PRIVATE)
-        val gson = Gson()
-        searchHistory = SearchHistory(sharedPrefs, gson)
-    }
+
 
     private fun setupHistoryRecyclerView() {
         historyTitle = findViewById(R.id.historyTitle)
@@ -180,14 +176,14 @@ class SearchActivity : AppCompatActivity() {
         historyAdapter = TrackAdapter(emptyList()) { track ->
             if (clickDebounce()) {
                 openAudioPlayer(track)
-                searchHistory.addTrack(track)
+                searchHistoryInteractor.addTrack(track)
                 updateHistoryVisibility()
             }
         }
         historyRecyclerView.adapter = historyAdapter
 
         clearHistoryButton.setOnClickListener {
-            searchHistory.clearHistory()
+            searchHistoryInteractor.clearHistory()
             updateHistoryVisibility()
         }
     }
@@ -207,7 +203,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun updateHistoryVisibility() {
-        val history = searchHistory.getHistory()
+        val history = searchHistoryInteractor.getHistory()
         val hasHistory = history.isNotEmpty()
         val isSearchEmpty = searchEditText.text.isNullOrEmpty()
         val isFocused = searchEditText.hasFocus()
