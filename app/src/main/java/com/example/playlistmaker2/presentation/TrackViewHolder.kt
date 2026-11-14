@@ -1,3 +1,5 @@
+package com.example.playlistmaker2.presentation
+
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -6,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker2.R
 import com.example.playlistmaker2.domain.models.Track
+
 
 class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val ivTrackCover: ImageView = itemView.findViewById(R.id.ivTrackCover)

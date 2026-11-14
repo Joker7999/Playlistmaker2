@@ -1,4 +1,4 @@
-package com.example.playlistmaker2.models
+package com.example.playlistmaker2.domain.models
 
 
 sealed class Resource<T>(val data: T? = null,

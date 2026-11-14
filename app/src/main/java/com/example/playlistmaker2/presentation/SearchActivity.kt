@@ -22,7 +22,6 @@ import com.example.playlistmaker2.Constants
 import com.example.playlistmaker2.Constants.CLICK_DEBOUNCE_DELAY
 import com.example.playlistmaker2.Constants.SEARCH_DEBOUNCE_DELAY
 import com.example.playlistmaker2.Constants.SEARCH_TEXT_KEY
-import com.example.playlistmaker2.domain.api.SearchHistoryInteractor
 import com.example.playlistmaker2.R
 import com.example.playlistmaker2.creator.Creator
 import com.example.playlistmaker2.domain.api.TracksInteractor
